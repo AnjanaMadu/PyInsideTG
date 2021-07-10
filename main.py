@@ -80,8 +80,7 @@ async def bashE(event):
     else:
         await event.reply(event.chat_id, f'**CMD:** `{cmd}`')
 
-with client:
-    client.loop.run_until_complete()
+client.run_until_disconnected()
 
 async def bash(cmd):
 
