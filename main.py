@@ -80,7 +80,7 @@ async def evalE(event):
     final_output = (
         f"**•  Eval : **\n```{cmd}``` \n\n**•  Result : **\n```{evaluation}``` \n"
     )
-    await event.respond(final_output)
+    await catevent.edit(final_output)
 
 # --- BASH DEF HERE --- #
 async def bash(cmd):
@@ -112,8 +112,6 @@ async def bashE(event):
         await event.respond(f'**CMD:** `{cmd}`')
 
 print(f'''================================
->> Python Version: {os.system("python -V")}
-================================
       !!!! BOT STARTED !!!!
 ================================''')
 client.run_until_disconnected()
