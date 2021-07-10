@@ -25,9 +25,6 @@ async def addban(event):
     banned_usrs = banned_usrs.append(int(amjana.sender_id))
     await event.reply("Done !")
 
-with client:
-    client.loop.run_until_complete(addban())
-
 @client.on(events.NewMessage(chats=auth_chts, pattern="/eval ?(.*)"))
 async def evalE(event):
     if event.sender_id in banned_usrs:
@@ -68,9 +65,6 @@ async def evalE(event):
     )
     await event.reply(final_output)
 
-with client:
-    client.loop.run_until_complete(evalE())
-
 @client.on(events.NewMessage(chats=auth_chts, pattern="/bash ?(.*)"))
 async def bashE(event):
     if event.sender_id in banned_usrs:
@@ -87,7 +81,7 @@ async def bashE(event):
         await event.reply(event.chat_id, f'**CMD:** `{cmd}`')
 
 with client:
-    client.loop.run_until_complete(bashE())
+    client.loop.run_until_complete()
 
 async def bash(cmd):
 
