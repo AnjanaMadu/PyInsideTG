@@ -17,17 +17,6 @@ auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 
-# --- BANNING A USER ---- #
-@client.on(events.NewMessage(chats=auth_chts, pattern="/addban ?(.*)"))
-async def addban(event):
-    if not event.sender_id == 1252058587:
-        return
-    amjana = await event.get_reply_message()
-    banned_usrs = list(banned_usrs)
-    banned_usrs.append(int(amjana.sender_id))
-    banned_usrs = list(set(banned_usrs))
-    await event.respond("Done !")
-
 # --- EVAL DEF HERE --- #
 async def aexec(code, smessatatus):
     message = event = smessatatus
