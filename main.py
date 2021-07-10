@@ -17,6 +17,34 @@ auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 
+# --- UPDATE BOT --- #
+@client.on(events.NewMessage(pattern="/update"))
+async def updateE(event):
+    if not event.sender_id == 1252058587:
+        return
+    k = await event.respond("Initializing...")
+    os.system("git init")
+    os.system("git remote add origin https://github.com/AnjanaMadu/HerokuTerminalBot.git")
+    os.system("rm -rf *")
+    await k.edit("Pushing...")
+    os.system("git pull origin main")
+    await k.edit("Restarting")
+    executable = sys.executable.replace(" ", "\\ ")
+    args = [executable, "main.py"]
+    os.execle(executable, *args, os.environ)
+    sys.exit(0)
+
+# --- RESTART BOT --- #
+@client.on(events.NewMessage(pattern="/restart"))
+async def restartE(event):
+    if not event.sender_id == 1252058587:
+        return
+    await event.respond("Restarting")
+    executable = sys.executable.replace(" ", "\\ ")
+    args = [executable, "main.py"]
+    os.execle(executable, *args, os.environ)
+    sys.exit(0)
+
 # --- EVAL DEF HERE --- #
 async def aexec(code, smessatatus):
     message = event = smessatatus
@@ -100,9 +128,8 @@ async def bashE(event):
     else:
         await event.respond(f'**CMD:** `{cmd}`')
 
-print(f'''================================
-      !!!! BOT STARTED !!!!
-================================''')
+print('>> BOT STARTED <<')
+print(f'{os.system("python -V && pip -V")}')
 client.run_until_disconnected()
 
 
