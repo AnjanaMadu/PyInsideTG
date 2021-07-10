@@ -129,7 +129,7 @@ async def bashE(event):
         await event.respond(f'**CMD:** `{cmd}`')
 
 print('>> BOT STARTED <<')
-print(f'{os.system("python -V && pip -V")}')
+os.system("python -V")
 client.run_until_disconnected()
 
 
