@@ -1,2 +1,1 @@
-# HerokuTerminalBot
-@AnjanaMadu
+# Heroku Terminal Bot Based on TELETHON
