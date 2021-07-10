@@ -16,7 +16,8 @@
     },
     "BANNED_USRS": {
       "description": "Add user ids to ban them from bot.",
-      "value": ""
+      "value": "",
+      "required": false
     },
     "AUTH_USERS": {
       "description": "Bot will work only for auth peoples. You can add chat ids too..",
