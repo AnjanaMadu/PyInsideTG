@@ -109,9 +109,9 @@ async def bashE(event):
     else:
         await event.reply(event.chat_id, f'**CMD:** `{cmd}`')
 
-client.run_until_disconnected()
 print('''--------------------------------
       !!!! BOT STARTED !!!!
 --------------------------------''')
+client.run_until_disconnected()
 
 
