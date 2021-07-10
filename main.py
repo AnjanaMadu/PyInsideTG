@@ -77,7 +77,7 @@ async def aexec(code, smessatatus):
 @client.on(events.NewMessage(chats=auth_chts, pattern="/eval ?(.*)"))
 async def evalE(event):
     if event.sender_id in banned_usrs:
-        return
+        return await event.respond("You are Banned!")
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
         return
@@ -131,7 +131,7 @@ async def bash(cmd):
 @client.on(events.NewMessage(chats=auth_chts, pattern="/bash ?(.*)"))
 async def bashE(event):
     if event.sender_id in banned_usrs:
-        return
+        return await event.respond("You are Banned!")
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     out, err = await bash(cmd)
     if out:
