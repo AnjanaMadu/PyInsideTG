@@ -1,4 +1,5 @@
 import os, logging, asyncio, io, sys, traceback
+from datetime import datetime
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
@@ -16,6 +17,20 @@ bot_token = os.environ.get("TG_BOT_TOKEN")
 auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
+
+# --- PINGING BOT --- #
+@client.on(events.NewMessage(pattern="/ping"))
+async def pingE(event):
+    start = datetime.now()
+    catevent = await event.respond("`!....`")
+    await asyncio.sleep(0.3)
+    await catevent.edit("`..!..`")
+    await asyncio.sleep(0.3)
+    await catevent.edit("`....!`")
+    end = datetime.now()
+    tms = (end - start).microseconds / 1000
+    ms = round((tms - 0.6) / 3, 3)
+    await catevent.edit(f"Pong!\n`{ms} ms`")
 
 # --- UPDATE BOT --- #
 @client.on(events.NewMessage(pattern="/update"))
