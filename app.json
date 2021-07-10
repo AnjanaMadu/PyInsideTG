@@ -1,0 +1,29 @@
+{
+  "name": "Terminal Bot",
+  "description": "A simple terminal bot run on heroku.",
+  "env": {
+    "TG_BOT_TOKEN": {
+      "description": "Enter bot toke.",
+      "value": ""
+    },
+    "APP_ID": {
+      "description": "Get this value from my.telegram.org! Please do not steal.",
+      "value": ""
+    },
+    "API_HASH": {
+      "description": "Get this value from my.telegram.org! Please do not steal.",
+      "value": ""
+    },
+    "BANNED_USRS": {
+      "description": "Add user ids to ban them from bot.",
+      "value": ""
+    },
+    "AUTH_USERS": {
+      "description": "Bot will work only for auth peoples. You can add chat ids too..",
+      "value": ""
+    }
+  },
+  "buildpacks": [{
+    "url": "heroku/python"
+  }]
+}
