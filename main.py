@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
-
+# --- STARTING BOT --- #
 api_id = int(os.environ.get("APP_ID"))
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("TG_BOT_TOKEN")
@@ -17,6 +17,7 @@ auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 
+# --- BANNING A USER ---- #
 @client.on(events.NewMessage(chats=auth_chts, pattern="/addban ?(.*)"))
 async def addban(event):
     if not event.sender_id == 1252058587:
@@ -25,6 +26,20 @@ async def addban(event):
     banned_usrs = banned_usrs.append(int(amjana.sender_id))
     await event.reply("Done !")
 
+# --- EVAL DEF HERE --- #
+async def aexec(code, smessatatus):
+    message = event = smessatatus
+    p = lambda _x: print(_format.yaml_format(_x))
+    reply = await event.get_reply_message()
+    exec(
+        f"async def __aexec(message, event , reply, client, p, chat): "
+        + "".join(f"\n {l}" for l in code.split("\n"))
+    )
+    return await locals()["__aexec"](
+        message, event, reply, message.client, p, message.chat_id
+    )
+ 
+# --- EVAL EVENT HERE --- # 
 @client.on(events.NewMessage(chats=auth_chts, pattern="/eval ?(.*)"))
 async def evalE(event):
     if event.sender_id in banned_usrs:
@@ -65,6 +80,20 @@ async def evalE(event):
     )
     await event.reply(final_output)
 
+# --- BASH DEF HERE --- #
+async def bash(cmd):
+
+    process = await asyncio.create_subprocess_shell(
+        cmd,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    stdout, stderr = await process.communicate()
+    err = stderr.decode().strip()
+    out = stdout.decode().strip()
+    return out, err
+
+# --- BASH EVENT HERE --- #
 @client.on(events.NewMessage(chats=auth_chts, pattern="/bash ?(.*)"))
 async def bashE(event):
     if event.sender_id in banned_usrs:
@@ -81,27 +110,8 @@ async def bashE(event):
         await event.reply(event.chat_id, f'**CMD:** `{cmd}`')
 
 client.run_until_disconnected()
+print('''--------------------------------
+      !!!! BOT STARTED !!!!
+--------------------------------''')
 
-async def bash(cmd):
 
-    process = await asyncio.create_subprocess_shell(
-        cmd,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
-    stdout, stderr = await process.communicate()
-    err = stderr.decode().strip()
-    out = stdout.decode().strip()
-    return out, err
-
-async def aexec(code, smessatatus):
-    message = event = smessatatus
-    p = lambda _x: print(_format.yaml_format(_x))
-    reply = await event.get_reply_message()
-    exec(
-        f"async def __aexec(message, event , reply, client, p, chat): "
-        + "".join(f"\n {l}" for l in code.split("\n"))
-    )
-    return await locals()["__aexec"](
-        message, event, reply, message.client, p, message.chat_id
-    )
