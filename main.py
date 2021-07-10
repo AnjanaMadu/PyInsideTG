@@ -101,13 +101,13 @@ async def bashE(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     out, err = await bash(cmd)
     if out:
-        await event.reply(event.chat_id, f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
+        await event.reply(f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
     elif err:
-        await event.reply(event.chat_id, f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
+        await event.reply(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
     elif out and err:
-        await event.reply(event.chat_id, f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
+        await event.reply(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
     else:
-        await event.reply(event.chat_id, f'**CMD:** `{cmd}`')
+        await event.reply(f'**CMD:** `{cmd}`')
 
 print('''--------------------------------
       !!!! BOT STARTED !!!!
