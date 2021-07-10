@@ -23,8 +23,10 @@ async def addban(event):
     if not event.sender_id == 1252058587:
         return
     amjana = await event.get_reply_message()
-    banned_usrs = banned_usrs.append(int(amjana.sender_id))
-    await event.reply("Done !")
+    banned_usrs = list(banned_usrs)
+    banned_usrs.append(int(amjana.sender_id))
+    banned_usrs = list(set(banned_usrs))
+    await event.respond("Done !")
 
 # --- EVAL DEF HERE --- #
 async def aexec(code, smessatatus):
@@ -52,7 +54,7 @@ async def evalE(event):
         .replace("send_file", "send_file")
         .replace("edit_message", "edit_message")
     )
-    catevent = await edit_or_reply(event, "`Running ...`")
+    catevent = await event.respond("`Running ...`")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
@@ -78,7 +80,7 @@ async def evalE(event):
     final_output = (
         f"**•  Eval : **\n```{cmd}``` \n\n**•  Result : **\n```{evaluation}``` \n"
     )
-    await event.reply(final_output)
+    await event.respond(final_output)
 
 # --- BASH DEF HERE --- #
 async def bash(cmd):
@@ -101,17 +103,19 @@ async def bashE(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     out, err = await bash(cmd)
     if out:
-        await event.reply(f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
+        await event.respond(f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
     elif err:
-        await event.reply(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
+        await event.respond(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
     elif out and err:
-        await event.reply(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
+        await event.respond(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
     else:
-        await event.reply(f'**CMD:** `{cmd}`')
+        await event.respond(f'**CMD:** `{cmd}`')
 
-print('''--------------------------------
+print(f'''================================
+>> Python Version: {os.system("python -V")}
+================================
       !!!! BOT STARTED !!!!
---------------------------------''')
+================================''')
 client.run_until_disconnected()
 
 
