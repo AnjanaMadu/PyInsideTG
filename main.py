@@ -6,7 +6,7 @@ from telethon.sessions import StringSession
  
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(name)s - [%(levelname)s] - %(message)s'
 )
 LOGGER = logging.getLogger(__name__)
 
@@ -31,11 +31,12 @@ async def pingE(event):
     tms = (end - start).microseconds / 1000
     ms = round((tms - 0.6) / 3, 3)
     await catevent.edit(f"Pong!\n`{ms} ms`")
+    LOGGER.info("Bot Pinging")
 
 # --- UPDATE BOT --- #
 @client.on(events.NewMessage(pattern="/update"))
 async def updateE(event):
-    if not event.sender_id == 1252058587:
+    if not event.sender_id in auth_chts:
         return
     k = await event.respond("Initializing...")
     os.system("git init")
@@ -48,17 +49,19 @@ async def updateE(event):
     args = [executable, "main.py"]
     os.execle(executable, *args, os.environ)
     sys.exit(0)
+    LOGGER.info("Bot Updating")
 
 # --- RESTART BOT --- #
 @client.on(events.NewMessage(pattern="/restart"))
 async def restartE(event):
-    if not event.sender_id == 1252058587:
+    if not event.sender_id in auth_chts:
         return
     await event.respond("Restarting")
     executable = sys.executable.replace(" ", "\\ ")
     args = [executable, "main.py"]
     os.execle(executable, *args, os.environ)
     sys.exit(0)
+    LOGGER.info("Bot Restarting")
 
 # --- EVAL DEF HERE --- #
 async def aexec(code, smessatatus):
@@ -113,6 +116,7 @@ async def evalE(event):
         f"**•  Eval : **\n```{cmd}``` \n\n**•  Result : **\n```{evaluation}``` \n"
     )
     await catevent.edit(final_output)
+    LOGGER.info(f"Eval: {cmd}\nExcute by: {event.sender_id}")
 
 # --- BASH DEF HERE --- #
 async def bash(cmd):
@@ -134,6 +138,7 @@ async def bashE(event):
         return await event.respond("You are Banned!")
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     out, err = await bash(cmd)
+    LOGGER.info(f"Bash: {cmd}\nExcute by: {event.sender_id}")
     if out:
         await event.respond(f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
     elif err:
