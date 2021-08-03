@@ -96,7 +96,8 @@ async def evalE(event):
     redirected_error = sys.stderr = io.StringIO()
     stdout, stderr, exc = None, None, None
     try:
-        await aexec(cmd, event)
+        t = asyncio.create_task(aexec(cmd, event))
+        await t
     except Exception:
         exc = traceback.format_exc()
     stdout = redirected_output.getvalue()
@@ -115,7 +116,14 @@ async def evalE(event):
     final_output = (
         f"**•  Eval : **\n```{cmd}``` \n\n**•  Result : **\n```{evaluation}``` \n"
     )
-    await catevent.edit(final_output)
+    try:
+        await catevent.edit(final_output)
+    except:
+        with io.open("output.txt", "w", encoding="utf-8") as k:
+            k.write(str(final_output).replace("`", "").replace("*", ""))
+            k.close()
+        await event.client.send_file(event.chat_id, "output.txt")
+        os.remove('output.txt')
     LOGGER.info(f"Eval: {cmd}\nExcute by: {event.sender_id}")
 
 # --- BASH DEF HERE --- #
@@ -137,16 +145,21 @@ async def bashE(event):
     if event.sender_id in banned_usrs:
         return await event.respond("You are Banned!")
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
+    await event.respond("Running...")
     out, err = await bash(cmd)
     LOGGER.info(f"Bash: {cmd}\nExcute by: {event.sender_id}")
-    if out:
-        await event.respond(f'**CMD:** `{cmd}`\n**OUTPUT:**\n `{out}`')
-    elif err:
-        await event.respond(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`')
-    elif out and err:
+    if not out:
+        out = None
+    elif not err:
+        err = None
+    try:
         await event.respond(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
-    else:
-        await event.respond(f'**CMD:** `{cmd}`')
+    except:
+        with io.open("output.txt", "w", encoding="utf-8") as k:
+            k.write(f'CMD: {cmd}\nERROR:\n {err}\nOUTPUT:\n {out}')
+            k.close()
+        await event.client.send_file(event.chat_id, "output.txt")
+        os.remove('output.txt')
 
 print('>> BOT STARTED <<')
 os.system("python -V")
