@@ -40,7 +40,7 @@ async def updateE(event):
         return
     k = await event.respond("Initializing...")
     os.system("git init")
-    os.system("git remote add origin https://github.com/AnjanaMadu/HerokuTerminalBot.git")
+    os.system("git remote add origin https://github.com/AnjanaMadu/TerminalBot.git")
     os.system("rm -rf *")
     await k.edit("Pushing...")
     os.system("git pull origin main")
@@ -124,6 +124,7 @@ async def evalE(event):
             k.close()
         await event.client.send_file(event.chat_id, "output.txt")
         os.remove('output.txt')
+        await catevent.delete()
     LOGGER.info(f"Eval: {cmd}\nExcute by: {event.sender_id}")
 
 # --- BASH DEF HERE --- #
@@ -145,7 +146,7 @@ async def bashE(event):
     if event.sender_id in banned_usrs:
         return await event.respond("You are Banned!")
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
-    await event.respond("Running...")
+    oldmsg = await event.respond("`Running...`")
     out, err = await bash(cmd)
     LOGGER.info(f"Bash: {cmd}\nExcute by: {event.sender_id}")
     if not out:
@@ -153,13 +154,14 @@ async def bashE(event):
     elif not err:
         err = None
     try:
-        await event.respond(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
+        await oldmsg.edit(f'**CMD:** `{cmd}`\n**ERROR:**\n `{err}`\n**OUTPUT:**\n `{out}`')
     except:
         with io.open("output.txt", "w", encoding="utf-8") as k:
             k.write(f'CMD: {cmd}\nERROR:\n {err}\nOUTPUT:\n {out}')
             k.close()
-        await event.client.send_file(event.chat_id, "output.txt")
+        await event.client.send_file(event.chat_id, "output.txt", reply_to=event)
         os.remove('output.txt')
+        await oldmsg.delete()
 
 print('>> BOT STARTED <<')
 os.system("python -V")
