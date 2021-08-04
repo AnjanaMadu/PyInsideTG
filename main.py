@@ -57,7 +57,7 @@ async def updateE(event):
             ups_rem.pull(ac_br)
     except GitCommandError:
             repo.git.reset("--hard", "FETCH_HEAD")
-    args = [sys.executable, "main.py]
+    args = [sys.executable, "main.py"]
     execle(sys.executable, *args, environ)
 
 
