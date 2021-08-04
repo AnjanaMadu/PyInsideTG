@@ -2,8 +2,10 @@ import os, logging, asyncio, io, sys, traceback
 from datetime import datetime
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
-
- 
+from git import Repo
+from os import environ, execle
+import sys
+from git.exc import GitCommandError, InvalidGitRepositoryError
 logging.basicConfig(
     level=logging.INFO,
     format='%(name)s - [%(levelname)s] - %(message)s'
@@ -38,19 +40,28 @@ async def pingE(event):
 async def updateE(event):
     if not event.sender_id in auth_chts:
         return
-    k = await event.respond("Initializing...")
-    os.system("git init")
-    os.system("git remote add origin https://github.com/AnjanaMadu/TerminalBot.git")
-    os.system("rm -rf *")
-    await k.edit("Pushing...")
-    os.system("git pull origin main")
-    await k.edit("Restarting")
-    executable = sys.executable.replace(" ", "\\ ")
-    args = [executable, "main.py"]
-    os.execle(executable, *args, os.environ)
-    sys.exit(0)
-    LOGGER.info("Bot Updating")
+    try:
+     repo = Repo()
+    except InvalidGitRepositoryError as e:
+     repo = Repo.init()
+     origin = repo.create_remote("upstream", "https://github.com/AnjanaMadu/TerminalBot.git")
+     origin.fetch()
+     repo.create_head("master", origin.refs.master)
+     repo.heads.master.set_tracking_branch(origin.refs.master)
+     repo.heads.master.checkout(True)
+    repo.create_remote("upstream", 'https://github.com/AnjanaMadu/TerminalBot.git')
+    ac_br = repo.active_branch.name
+    ups_rem = repo.remote("upstream")
+    ups_rem.fetch(ac_br)
+    try:
+            ups_rem.pull(ac_br)
+    except GitCommandError:
+            repo.git.reset("--hard", "FETCH_HEAD")
+    args = [sys.executable, "main.py]
+    execle(sys.executable, *args, environ)
 
+
+    
 # --- RESTART BOT --- #
 @client.on(events.NewMessage(pattern="/restart"))
 async def restartE(event):
