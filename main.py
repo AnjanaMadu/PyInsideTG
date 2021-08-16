@@ -15,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 # --- STARTING BOT --- #
 api_id = int(os.environ.get("APP_ID"))
 api_hash = os.environ.get("API_HASH")
-bot_token = os.environ.get("TG_BOT_TOKEN")
+bot_token = os.environ.get("TOKEN")
 auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
