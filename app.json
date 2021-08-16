@@ -2,7 +2,7 @@
   "name": "Terminal Bot",
   "description": "A simple terminal bot run on heroku.",
   "env": {
-    "TG_BOT_TOKEN": {
+    "TOKEN": {
       "description": "Enter bot toke.",
       "value": ""
     },
