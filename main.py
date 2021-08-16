@@ -20,6 +20,11 @@ auth_chts = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 banned_usrs = set(int(x) for x in os.environ.get("BANNED_USRS", "").split())
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 
+# --- BAN --- #
+@client.on(events.NewMessage(pattern="/ban"))
+async def banE(event):
+    k = await event.get_reply_message()
+    banned_usrs.append(k.from_id.user_id)
 # --- PINGING BOT --- #
 @client.on(events.NewMessage(pattern="/ping"))
 async def pingE(event):
