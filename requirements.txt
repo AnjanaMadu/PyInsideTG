@@ -1,6 +1,5 @@
 telethon
 gitpython
-
 pyrogram
 sqlalchemy==1.3.23
 psycopg2-binary
