@@ -5,7 +5,7 @@
 - Code Quality: 0% 😅
 
 ### 🚀 Deploy to heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnjanaMadu/HerokuTerminalBot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnjanaMadu/TerminalBot)
 
 ### 🎯 Credits and Other
 - [CatUserBot](https://github.com/sandy1709/catuserbot) for `EVAL` and `UPDATER`
