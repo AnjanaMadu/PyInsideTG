@@ -1,6 +1,2 @@
 telethon
-cryptg
-pyrogram
-gitpython
-requests
-heroku3
+asyncio
