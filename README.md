@@ -1,14 +1,13 @@
-# Terminal Bot ⚙️
+# PyInsideTG Bot ⚙️
 ### 🏷 Infomation
 - Language: Python.
 - Telegram Library: Telethon.
-- Code Quality: 0% 😅
+- Code Quality: ```None```%
 
 ### 🚀 Deploy to heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnjanaMadu/TerminalBot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnjanaMadu/PyInsideTG)
 
-### 🎯 Credits and Other
-- [CatUserBot](https://github.com/sandy1709/catuserbot) for `EVAL` and `UPDATER`
-- [Ultroid](https://github.com/TeamUltroid/Ultroid) for `BASH`
+### 🎯 Credits
+- For [me](https://github.com/AnjanaMadu) cuz I rewrote the all code again.
 
 **Do not forget to follow me on Github ✌️**
