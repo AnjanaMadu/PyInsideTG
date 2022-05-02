@@ -1,12 +1,12 @@
 {
-  "name": "Terminal Bot",
-  "description": "A simple terminal bot run on heroku.",
+  "name": "PyInsideTG",
+  "description": "A simple bot to evaluate python and bash commands inside telegram.",
   "env": {
-    "TOKEN": {
-      "description": "Enter bot toke.",
+    "BOT_TOKEN": {
+      "description": "Your Bot's token.",
       "value": ""
     },
-    "APP_ID": {
+    "API_ID": {
       "description": "Get this value from my.telegram.org! Please do not steal.",
       "value": ""
     },
@@ -14,21 +14,13 @@
       "description": "Get this value from my.telegram.org! Please do not steal.",
       "value": ""
     },
-    "BANNED_USRS": {
-      "description": "Add user ids to ban them from bot.",
-      "value": "",
-      "required": false
+    "OWNER_ID": {
+      "description": "Your telegram ID.",
+      "value": ""
     },
     "AUTH_USERS": {
-      "description": "Bot will work only for auth peoples. You can add chat ids too..",
+      "description": "Bot will work only for auth peoples.",
       "value": ""
     }
-  },
-  "buildpacks": [{
-    "url": "https://github.com/heroku/heroku-buildpack-python.git"
-  },{
-    "url": "https://github.com/heroku/heroku-buildpack-google-chrome.git"
-  },{
-    "url": "https://github.com/heroku/heroku-buildpack-chromedriver.git"
-  }]
+  }
 }
